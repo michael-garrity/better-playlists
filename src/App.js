@@ -4,8 +4,7 @@ import './App.css';
 import queryString from 'query-string';
 
 let defaultStyle = {
-  color: '#fff',
-  'font-family': 'Sans-serif'
+  color: '#b3b3b3',
 };
 let counterStyle = {...defaultStyle,
   display: 'inline-block', 
@@ -16,10 +15,9 @@ let counterStyle = {...defaultStyle,
   'line-height': '30px'
 }
 
-function isEven(number) {
-  return number % 2
-}
-
+// function isEven(number) {
+//   return number % 2
+// }
 
 class PlaylistCounter extends Component {
   render() {
@@ -43,7 +41,7 @@ class HoursCounter extends Component {
     let totalDurationHours = Math.round(totalDuration/60)
     let isTooLow = totalDurationHours < 10
     let hoursCounterStyle = { ...counterStyle, 
-      color: isTooLow ? 'red' : 'white',
+      color: isTooLow ? '#1DB954' : 'white',
       'font-weight': isTooLow ? 'bold' : 'normal',
     } 
     return (
@@ -61,7 +59,7 @@ class Filter extends Component {
         <img />
         <input type="text" onKeyUp={event => 
           this.props.onTextChange(event.target.value)}
-          style={{...defaultStyle, color: 'black', 'font-size': '20px', padding: '10px'}}/>
+          style={{...defaultStyle, color: 'black', 'font-size': '20px', padding: '10px', 'margin-bottom': '20px', margin:'10px'}}/>
       </div>
     );
   }
@@ -71,21 +69,22 @@ class Playlist extends Component {
   render() {
     let playlist = this.props.playlist
     return (
-      <div style={{...defaultStyle, 
-        display: 'inline-block', 
-        width: '20%',
-        padding: '10px',
-        'background-color': isEven(this.props.index) 
-          ? '#C0C0C0' 
-          : '#808080'
-       }}>
-        <img src={playlist.imageUrl} style={{width: '60px'}}/>
-        <h3>{playlist.name}</h3>
-        <ul style={{'margin-top': '10px'}}>
-          {playlist.songs.map(song => 
-            <li style={{'padding-top': '2px', 'font-weight': 'bold'}}>{song.name}</li>
-          )}
-        </ul>
+      <div className="playlist">
+        <div style={{...defaultStyle, 
+          margin: '10px',
+          padding: '20px',
+          // 'background-color': isEven(this.props.index) 
+          //   ? '#161018' 
+          //   : '#070709'
+        }}>
+          <img src={playlist.imageUrl} style={{width: '80%'}}/>
+          <h3>{playlist.name}</h3>
+          <ul style={{'margin-top': '10px'}}>
+            {playlist.songs.map(song => 
+              <li style={{'padding-top': '2px', 'font-weight': 'bold'}}>{song.name}</li>
+            )}
+          </ul>
+        </div>
       </div>
     );
   }
@@ -180,15 +179,17 @@ class App extends Component {
             <Filter onTextChange={text => {
               this.setState({filterString: text})
             }}/>
+            <div className="box">
             {playlistToRender.map((playlist, i)  => 
               <Playlist playlist={playlist} index={i} />
             )}
+            </div>
           </div> : <button onClick={() => {
               window.location = window.location.href.includes('localhost') 
               ? 'http://localhost:8888/login' 
               : 'https://better-playlists-backend01.herokuapp.com/login' }
             }
-            style={{'padding': '20px', 'font-size': '50px', 'margin-top': '20px'}}>Sign in with Spotify</button>
+            style={{'padding': '20px', 'font-size': '20px', 'font-weight': 'bold', 'letter-spacing': '0.08rem', 'margin-top': '20px'}}>Sign in with Spotify</button>
         }
       </div>
     );
